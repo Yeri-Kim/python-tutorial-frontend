@@ -13,14 +13,14 @@ $(document).ready(function() {
     }
   });
 
-  if (myId) {
-
-  }
-
   if (userId) {
+
+    $('.userId')
+      .append(userId);
+
     $.ajax({
-      method: "GET",
-      url: "http://54.180.88.177:5000/timeline/"+userId,
+      method: 'GET',
+      url: 'http://54.180.88.177:5000/timeline/'+userId
     })
     .done(function(msg) {
       var timeline = msg.timeline;
@@ -28,15 +28,17 @@ $(document).ready(function() {
       if (timeline) {
         timeline.forEach(function (item) {
           $('.timeline-container')
-          .append('<li><strong>' + item.user_id +
-            '님</strong><p>' + item.tweet +
-            '</p></li>');
+            .append('<div class="card">' +
+              '<div class="card-body">' +
+              '<h5 class="card-title">'+item.user_id+'</h5>' +
+              '<p class="card-text">'+item.tweet+'</p></div>' +
+              '</div>')
         })
       }
     });
   }
 
-  $("#tweetForm").submit(function(e) {
+  $('#tweetForm').submit(function(e) {
     e.preventDefault();
 
     if (!myId) {
@@ -45,11 +47,11 @@ $(document).ready(function() {
       return;
     }
 
-    var tweet = $("#tweet").val();
+    var tweet = $('#tweet').val();
 
     $.ajax({
-      method: "POST",
-      url: "http://54.180.88.177:5000/tweet",
+      method: 'POST',
+      url: 'http://54.180.88.177:5000/tweet',
       data: {
         id: userId,
         tweet: tweet
@@ -58,5 +60,33 @@ $(document).ready(function() {
     .done(function(msg) {
       console.log(msg)
     });
+  });
+
+  $('#follow').on('click', function () {
+    $.ajax({
+      method: 'POST',
+      url: 'http://54.180.88.177:5000/follow',
+      data: {
+        id: myId,
+        follow: userId
+      }
+    })
+      .done(function(msg) {
+        console.log(msg)
+      });
+  });
+
+  $('#unfollow').on('click', function () {
+    $.ajax({
+      method: 'POST',
+      url: 'http://54.180.88.177:5000/unfollow',
+      data: {
+        id: myId,
+        unfollow: userId
+      }
+    })
+      .done(function(msg) {
+        console.log(msg)
+      });
   });
 });

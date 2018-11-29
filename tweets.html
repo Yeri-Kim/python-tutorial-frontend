@@ -15,17 +15,18 @@
 
         .page-contents {
             width: 760px;
-            margin: 0 auto;
+            margin: 20px auto;
         }
 
         .profile-container {
             float: left;
-            width: 250px;
+            width: 230px;
         }
 
         .tweets-container {
             float: right;
             width: 500px;
+            padding-top: 18px;
         }
 
         button.tweet-btn {
@@ -33,30 +34,33 @@
         }
 
         .timeline-container {
-            margin-top: 100px;
+            margin-top: 80px;
         }
 
-        ul {
-            padding: 0;
+        .card {
+            margin-bottom: 10px;
         }
 
-        li {
-            list-style: none;
-            padding: 10px 20px;
-            background-color: white;
-            border: 1px solid #ddd;
-            margin-top: 5px;
+        #follow {
+            margin-bottom: 10px;
+        }
+
+        #follow, #unfollow {
+            width: 100%;
         }
     </style>
 </head>
 <body class="tweets-page">
 
 <div class="page-contents">
-    <div class="profile-container">
-        <p class="myid"></p>
 
-        <button>Follow</button>
-        <button>Unfollow</button>
+    <div class="card bg-light mb-3 profile-container">
+        <div class="card-header">User: <span class="userId"></span></div>
+        <div class="card-body">
+            <button id="follow" class="btn btn-success">Follow</button>
+            <br/>
+            <button id="unfollow" class="btn btn-secondary">Unfollow</button>
+        </div>
     </div>
 
     <div class="tweets-container">
@@ -68,9 +72,9 @@
             <button class="btn btn-primary tweet-btn">Tweet</button>
         </form>
 
-        <ul class="timeline-container">
+        <div class="timeline-container">
 
-        </ul>
+        </div>
     </div>
 </div>
 
