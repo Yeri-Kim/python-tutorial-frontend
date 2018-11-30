@@ -24,7 +24,7 @@ $(document).ready(function() {
     .done(function(msg) {
       if (msg.access_token) {
         createCookie(msg.access_token);
-        window.location.href = './tweets.html?myid='+id+'&userid='+id;
+        window.location.href = './tweets.html?userid='+msg.user_id;
       }
     });
   });

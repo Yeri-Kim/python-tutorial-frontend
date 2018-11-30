@@ -5,29 +5,29 @@ function getCookie(name) {
 };
 
 $(document).ready(function() {
-  var paramArr = (window.location.search.split('?')[1] || '').split('&');
-  var myId = '';
-  var userId = '';
   var accessToken = (getCookie('token') || '').split('=')[1];
+  var paramArr = (window.location.search.split('?')[1] || '').split('&');
+  var userId = '';
 
   paramArr.forEach(function (param) {
-    if (param.indexOf('myid') !== -1) {
-      myId = param.split('=')[1];
-    }
-
     if (param.indexOf('userid') !== -1) {
       userId = param.split('=')[1];
     }
-  });
+  })
 
   if (userId) {
 
     $('.userId')
       .append(userId);
+  }
 
+  if (accessToken) {
     $.ajax({
       method: 'GET',
-      url: 'http://localhost:5000/timeline/'+userId
+      url: 'http://localhost:5000/timeline',
+      headers: {
+        'Authorization': accessToken
+      }
     })
     .done(function(msg) {
       var timeline = msg.timeline;
@@ -43,6 +43,10 @@ $(document).ready(function() {
         })
       }
     });
+  } else {
+    alert('로그인이 필요합니다.');
+    window.location.href = './login.html';
+    return;
   }
 
   $('#tweetForm').submit(function(e) {
@@ -64,7 +68,6 @@ $(document).ready(function() {
         'Authorization': accessToken
       },
       data: JSON.stringify({
-        "id"    : userId,
         "tweet" : tweet
       }),
       contentType: 'application/json'
@@ -78,10 +81,13 @@ $(document).ready(function() {
     $.ajax({
       method: 'POST',
       url: 'http://localhost:5000/follow',
-      data: {
-        id: myId,
-        follow: userId
-      }
+      headers: {
+        'Authorization': accessToken
+      },
+      data: JSON.stringify({
+        "follow" : userId
+      }),
+      contentType: 'application/json'
     })
       .done(function(msg) {
         console.log(msg)
@@ -92,10 +98,13 @@ $(document).ready(function() {
     $.ajax({
       method: 'POST',
       url: 'http://localhost:5000/unfollow',
-      data: {
-        id: myId,
-        unfollow: userId
-      }
+      headers: {
+        'Authorization': accessToken
+      },
+      data: JSON.stringify({
+        "unfollow" : userId
+      }),
+      contentType: 'application/json'
     })
       .done(function(msg) {
         console.log(msg)
