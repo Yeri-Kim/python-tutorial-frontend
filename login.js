@@ -1,3 +1,10 @@
+function createCookie(value) {
+  var now = new Date();
+  var expirationDate = new Date(now.getFullYear(), now.getMonth(), now.getDate()+7, 0, 0, 0);
+
+  document.cookie = 'token='+value+'; expires='+expirationDate+'; path=/';
+};
+
 $(document).ready(function() {
   $("#loginForm").submit(function(e) {
     e.preventDefault();
@@ -16,6 +23,7 @@ $(document).ready(function() {
     })
     .done(function(msg) {
       if (msg.access_token) {
+        createCookie(msg.access_token);
         window.location.href = './tweets.html?myid='+id+'&userid='+id;
       }
     });

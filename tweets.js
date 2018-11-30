@@ -1,7 +1,14 @@
+function getCookie(name) {
+  return document.cookie.split(';').filter(function(item) {
+    return item.indexOf(name) !== -1;
+  })[0];
+};
+
 $(document).ready(function() {
   var paramArr = (window.location.search.split('?')[1] || '').split('&');
   var myId = '';
   var userId = '';
+  var accessToken = (getCookie('token') || '').split('=')[1];
 
   paramArr.forEach(function (param) {
     if (param.indexOf('myid') !== -1) {
@@ -41,7 +48,8 @@ $(document).ready(function() {
   $('#tweetForm').submit(function(e) {
     e.preventDefault();
 
-    if (!myId) {
+    // if (!myId) {
+    if (!accessToken) {
       alert('로그인이 필요합니다.');
       window.location.href = './login.html';
       return;
@@ -52,6 +60,9 @@ $(document).ready(function() {
     $.ajax({
       method: 'POST',
       url: 'http://localhost:5000/tweet',
+      headers: {
+        'Authorization': accessToken
+      },
       data: JSON.stringify({
         "id"    : userId,
         "tweet" : tweet
