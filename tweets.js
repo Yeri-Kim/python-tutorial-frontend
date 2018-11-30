@@ -20,7 +20,7 @@ $(document).ready(function() {
 
     $.ajax({
       method: 'GET',
-      url: 'http://54.180.88.177:5000/timeline/'+userId
+      url: 'http://localhost:5000/timeline/'+userId
     })
     .done(function(msg) {
       var timeline = msg.timeline;
@@ -51,11 +51,12 @@ $(document).ready(function() {
 
     $.ajax({
       method: 'POST',
-      url: 'http://54.180.88.177:5000/tweet',
-      data: {
-        id: userId,
-        tweet: tweet
-      }
+      url: 'http://localhost:5000/tweet',
+      data: JSON.stringify({
+        "id"    : userId,
+        "tweet" : tweet
+      }),
+      contentType: 'application/json'
     })
     .done(function(msg) {
       console.log(msg)
@@ -65,7 +66,7 @@ $(document).ready(function() {
   $('#follow').on('click', function () {
     $.ajax({
       method: 'POST',
-      url: 'http://54.180.88.177:5000/follow',
+      url: 'http://localhost:5000/follow',
       data: {
         id: myId,
         follow: userId
@@ -79,7 +80,7 @@ $(document).ready(function() {
   $('#unfollow').on('click', function () {
     $.ajax({
       method: 'POST',
-      url: 'http://54.180.88.177:5000/unfollow',
+      url: 'http://localhost:5000/unfollow',
       data: {
         id: myId,
         unfollow: userId

@@ -7,11 +7,12 @@ $(document).ready(function() {
 
     $.ajax({
       method: "POST",
-      url: "http://54.180.88.177:5000/log-in",
-      data: {
-        id: id,
-        password: password
-      }
+      url: "http://localhost:5000/login",
+      data: JSON.stringify({
+        "email"    : id,
+        "password" : password
+      }),
+      contentType: 'application/json'
     })
     .done(function(msg) {
       if (msg.access_token) {
